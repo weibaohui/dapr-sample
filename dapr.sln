@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pubsub", "pubsub\pubsub.csproj", "{6466F45D-A523-4BA5-9100-E2854E03F95D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dapr", "pubsub\pubsub.csproj", "{6466F45D-A523-4BA5-9100-E2854E03F95D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
