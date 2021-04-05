@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: csharp-a
+  labels:
+    app: csharp-a
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: csharp-a
+  template:
+    metadata:
+      labels:
+        app: csharp-a
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "csharp-a"
+        dapr.io/app-port: "80"
+#        dapr.io/config: "appconfig"
+    spec:
+      containers:
+        - name: csharp-a
+          image: x:latest
+          ports:
+            - containerPort: 80
+          imagePullPolicy: IfNotPresent
