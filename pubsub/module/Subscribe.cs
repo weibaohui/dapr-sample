@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace pubsub
+namespace pubsub.module
 {
     public class Subscribe
     {
@@ -8,14 +8,15 @@ namespace pubsub
         /// 
         /// </summary>
         [JsonPropertyName("pubsubname")]
-        public string pubsubName { get; set; }
+        public string PubSubName { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public string topic { get; set; }
+        public string Topic { get; set; }
+        
         /// <summary>
         /// 
         /// </summary>
-        public string route { get; set; }
+        public string Route { get; set; }
     }
 }

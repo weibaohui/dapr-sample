@@ -3,6 +3,7 @@ using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using pubsub.module;
 
 namespace pubsub.Controllers
 {
@@ -21,7 +22,7 @@ namespace pubsub.Controllers
         [Route("processTiny")]
         public async Task<OkObjectResult> ProcessTiny(TinyCloudEvent ce)
         {
-            Console.WriteLine(JsonSerializer.Serialize(ce.data));
+            Console.WriteLine(JsonSerializer.Serialize(ce.Data));
             return Ok(ce);
         }
     }

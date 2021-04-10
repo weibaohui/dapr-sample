@@ -1,5 +1,6 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
+using pubsub.module;
 
 namespace pubsub.Controllers
 {
@@ -15,15 +16,15 @@ namespace pubsub.Controllers
             {
                 new Subscribe
                 {
-                    topic = "A",
-                    pubsubName = "pubsub",
-                    route = "/Process/processA"
+                    Topic = "A",
+                    PubSubName = "pubsub",
+                    Route = "/Process/processA"
                 },
                 new Subscribe
                 {
-                    topic = "A",
-                    pubsubName = "pubsub",
-                    route = "/Process/processTiny"
+                    Topic = "A",
+                    PubSubName = "pubsub",
+                    Route = "/Process/processTiny"
                 }
             };
             Console.WriteLine("dapr 已经读取订阅信息");

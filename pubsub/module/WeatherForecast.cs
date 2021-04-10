@@ -1,6 +1,6 @@
 using System;
 
-namespace pubsub
+namespace pubsub.module
 {
     public class WeatherForecast
     {
