@@ -5,8 +5,8 @@ RUN dotnet restore
 RUN dotnet publish -c release -o /app --no-restore
 
 #
-FROM mcr.microsoft.com/dotnet/aspnet:5.0
+FROM mcr.microsoft.com/dotnet/aspnet:5.0-alpine
 WORKDIR /app
 COPY --from=build /app ./
-RUN ls
+EXPOSE 80
 ENTRYPOINT ["dotnet", "pubsub.dll"]

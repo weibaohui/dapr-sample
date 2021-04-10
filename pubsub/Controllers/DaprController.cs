@@ -22,7 +22,7 @@ namespace pubsub.Controllers
                 },
                 new Subscribe
                 {
-                    Topic = "A",
+                    Topic = "B",
                     PubSubName = "pubsub",
                     Route = "/Process/processTiny"
                 }
