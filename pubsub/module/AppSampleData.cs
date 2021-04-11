@@ -1,14 +1,12 @@
 namespace pubsub.module
 {
-    public class Data
+    public class AppSampleData
     {
         /// <summary>
-        /// 
         /// </summary>
         public string MessageType { get; set; }
 
         /// <summary>
-        /// 柔柔弱弱
         /// </summary>
         public string Message { get; set; }
     }

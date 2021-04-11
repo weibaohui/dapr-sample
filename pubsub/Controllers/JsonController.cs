@@ -3,6 +3,9 @@ using pubsub.module;
 
 namespace pubsub.Controllers
 {
+    /// <summary>
+    ///     dotnet 常规使用
+    /// </summary>
     [ApiController]
     [Route("[Controller]")]
     public class JsonController : ControllerBase
@@ -12,8 +15,8 @@ namespace pubsub.Controllers
         public CloudEvent HelloWorld()
         {
             var ce = new CloudEvent();
-            var ceData = new Data {Message = "MSG", MessageType = "TYPE"};
-            ce.Data = ceData;
+            var ceData = new AppSampleData {Message = "MSG", MessageType = "TYPE"};
+            ce.AppSampleData = ceData;
             ce.DataContentType = "json";
             ce.Id = "id";
             ce.PubSubName = "pubsubname";

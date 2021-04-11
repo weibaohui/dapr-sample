@@ -1,11 +1,9 @@
-using System.Text.Json;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using pubsub.Controllers;
 
 namespace pubsub
 {
@@ -22,11 +20,7 @@ namespace pubsub
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton(new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                PropertyNameCaseInsensitive = true
-            });
+            services.AddControllers().AddDapr();
             // services.AddLogging(r => r.AddJsonConsole());
             services.AddControllers();
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "pubsub", Version = "v1"}); });
@@ -47,15 +41,11 @@ namespace pubsub
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseCloudEvents();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
                 endpoints.MapSubscribeHandler();
-
-                var account = new AccountController();
-                endpoints.MapGet("{id}", account.Balance);
-                endpoints.MapPost("deposit", account.Deposit).WithTopic(Config.PubsubName, "deposit");
-                endpoints.MapPost("withdraw", account.Withdraw).WithTopic(Config.PubsubName, "withdraw");
             });
         }
     }
