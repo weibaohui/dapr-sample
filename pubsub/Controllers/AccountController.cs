@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using Dapr;
 using Dapr.Client;
@@ -39,14 +38,14 @@ namespace pubsub.Controllers
         ///     目前监听了两种方式，1是httpPost，2是消息事件deposit
         /// </summary>
         /// <param name="transaction"></param>
-        /// <param name="daprClient"></param>
+        /// <param name="client"></param>
         /// <returns></returns>
         [Topic(Config.PubsubName, "deposit")]
         [HttpPost("deposit")]
-        public async Task<ActionResult<Account>> Deposit(Transaction transaction, [FromServices] DaprClient daprClient)
+        public async Task<ActionResult<Account>> Deposit(Transaction transaction, [FromServices] DaprClient client)
         {
             logger.LogDebug($"Enter deposit-{transaction}");
-            var state = await daprClient.GetStateEntryAsync<Account>(Config.StoreName, transaction.Id);
+            var state = await client.GetStateEntryAsync<Account>(Config.StoreName, transaction.Id);
             state.Value ??= new Account {Id = transaction.Id};
             state.Value.Balance += transaction.Amount;
             await state.SaveAsync();
@@ -54,36 +53,23 @@ namespace pubsub.Controllers
         }
 
         /// <summary>
-        ///     Method for withdrawing from account as specified in transaction.
+        ///     取钱
         /// </summary>
-        /// <param name="transaction">Transaction info.</param>
-        /// <param name="daprClient">State client to interact with Dapr runtime.</param>
-        /// <returns>A <see cref="Task{TResult}" /> representing the result of the asynchronous operation.</returns>
-        /// "pubsub", the first parameter into the Topic attribute, is name of the default pub/sub configured by the Dapr CLI.
+        /// <param name="transaction"></param>
+        /// <param name="client"></param>
+        /// <returns></returns>
         [Topic(Config.PubsubName, "withdraw")]
         [HttpPost("withdraw")]
-        public async Task<ActionResult<Account>> Withdraw(Transaction transaction, [FromServices] DaprClient daprClient)
+        public async Task<ActionResult<Account>> Withdraw(Transaction transaction, [FromServices] DaprClient client)
         {
-            logger.LogDebug("Enter withdraw");
-            var state = await daprClient.GetStateEntryAsync<Account>(Config.StoreName, transaction.Id);
+            logger.LogDebug($"Enter withdraw-{transaction}");
+            var state = await client.GetStateEntryAsync<Account>(Config.StoreName, transaction.Id);
 
             if (state.Value == null) return NotFound();
 
             state.Value.Balance -= transaction.Amount;
             await state.SaveAsync();
             return state.Value;
-        }
-
-        /// <summary>
-        ///     Method for returning a BadRequest result which will cause Dapr sidecar to throw an RpcException
-        [HttpPost("throwException")]
-        public async Task<ActionResult<Account>> ThrowException(Transaction transaction,
-            [FromServices] DaprClient daprClient)
-        {
-            Console.WriteLine("Enter ThrowException");
-            var task = Task.Delay(10);
-            await task;
-            return BadRequest(new {statusCode = 400, message = "bad request"});
         }
     }
 }

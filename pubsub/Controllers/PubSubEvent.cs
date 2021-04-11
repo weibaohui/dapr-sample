@@ -17,11 +17,18 @@ namespace pubsub.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        public async void PubDeposit([FromServices] DaprClient client)
+        public async void PubDepositEvent([FromServices] DaprClient client)
         {
-            _logger.LogInformation(client.ToString());
             var eventData = new {Id = "177", Amount = 1000000};
             await client.PublishEventAsync(Config.PubsubName, "deposit", eventData);
+        }
+
+        [HttpGet]
+        [Route("[action]")]
+        public async void PubWithDrawEvent([FromServices] DaprClient client)
+        {
+            var eventData = new {Id = "177", Amount = 1};
+            await client.PublishEventAsync(Config.PubsubName, "withdraw", eventData);
         }
     }
 }

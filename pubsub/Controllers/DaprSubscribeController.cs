@@ -7,7 +7,7 @@ namespace pubsub.Controllers
     /// </summary>
     [ApiController]
     [Route("dapr")]
-    public class DaprController : ControllerBase
+    public class DaprSubscribeController : ControllerBase
     {
         // [HttpGet]
         // [Route("subscribe")]
