@@ -11,15 +11,9 @@ namespace pubsub.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        /// <summary>
-        ///     State store name.
-        /// </summary>
         private readonly ILogger<AccountController> logger;
 
-        /// <summary>
-        ///     SampleController Constructor with logger injection
-        /// </summary>
-        /// <param name="logger"></param>
+
         public AccountController(ILogger<AccountController> logger)
         {
             this.logger = logger;
@@ -41,17 +35,17 @@ namespace pubsub.Controllers
         }
 
         /// <summary>
-        ///     存钱
+        ///     监听存钱的消息
+        ///     目前监听了两种方式，1是httpPost，2是消息事件deposit
         /// </summary>
-        /// <param name="transaction">Transaction info.</param>
-        /// <param name="daprClient">State client to interact with Dapr runtime.</param>
-        /// <returns>A <see cref="Task{TResult}" /> representing the result of the asynchronous operation.</returns>
-        /// "pubsub", the first parameter into the Topic attribute, is name of the default pub/sub configured by the Dapr CLI.
+        /// <param name="transaction"></param>
+        /// <param name="daprClient"></param>
+        /// <returns></returns>
         [Topic(Config.PubsubName, "deposit")]
         [HttpPost("deposit")]
         public async Task<ActionResult<Account>> Deposit(Transaction transaction, [FromServices] DaprClient daprClient)
         {
-            logger.LogDebug("Enter deposit");
+            logger.LogDebug($"Enter deposit-{transaction}");
             var state = await daprClient.GetStateEntryAsync<Account>(Config.StoreName, transaction.Id);
             state.Value ??= new Account {Id = transaction.Id};
             state.Value.Balance += transaction.Amount;

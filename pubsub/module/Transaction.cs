@@ -11,5 +11,10 @@ namespace pubsub.module
         ///     Gets or sets amount for the transaction.
         /// </summary>
         public decimal Amount { get; set; }
+
+        public override string ToString()
+        {
+            return $"id:{Id},amount:{Amount}";
+        }
     }
 }
