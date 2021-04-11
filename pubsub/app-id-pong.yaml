@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pong
+  labels:
+    app: pong
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pong
+  template:
+    metadata:
+      labels:
+        app: pong
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "pong"
+        dapr.io/app-port: "80"
+    spec:
+      containers:
+        - name: pong
+          image: x:latest
+          ports:
+            - containerPort: 80
+          imagePullPolicy: IfNotPresent

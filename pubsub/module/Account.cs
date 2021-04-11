@@ -11,5 +11,10 @@ namespace pubsub.module
         ///     Gets or sets account balance.
         /// </summary>
         public decimal Balance { get; set; }
+
+        public override string ToString()
+        {
+            return $"Id:{Id},Balance{Balance}";
+        }
     }
 }
