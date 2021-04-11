@@ -30,7 +30,7 @@ namespace GrpcServiceSample
 
         private readonly ILogger<BankingService> _logger;
 
-        private readonly JsonSerializerOptions jsonOptions = new() {PropertyNamingPolicy = JsonNamingPolicy.CamelCase};
+        private readonly JsonSerializerOptions jsonOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
         /// <summary>
         ///     Constructor
@@ -107,7 +107,7 @@ namespace GrpcServiceSample
             if (request.PubsubName == "pubsub")
             {
                 var input = JsonSerializer.Deserialize<Transaction>(request.Data.ToStringUtf8(), jsonOptions);
-                var transaction = new Transaction {Id = input.Id, Amount = input.Amount};
+                var transaction = new Transaction { Id = input.Id, Amount = input.Amount };
                 if (request.Topic == "deposit")
                     await Deposit(transaction, context);
                 else
@@ -126,7 +126,7 @@ namespace GrpcServiceSample
         public async Task<Account> GetAccount(GetAccountRequest input, ServerCallContext context)
         {
             var state = await _daprClient.GetStateEntryAsync<Account>(StoreName, input.Id);
-            return new Account {Id = state.Value.Id, Balance = state.Value.Balance};
+            return new Account { Id = state.Value.Id, Balance = state.Value.Balance };
         }
 
         /// <summary>
@@ -139,10 +139,10 @@ namespace GrpcServiceSample
         {
             _logger.LogDebug("Enter deposit");
             var state = await _daprClient.GetStateEntryAsync<Account>(StoreName, transaction.Id);
-            state.Value ??= new Account {Id = transaction.Id};
+            state.Value ??= new Account { Id = transaction.Id };
             state.Value.Balance += transaction.Amount;
             await state.SaveAsync();
-            return new Account {Id = state.Value.Id, Balance = state.Value.Balance};
+            return new Account { Id = state.Value.Id, Balance = state.Value.Balance };
         }
 
         /// <summary>
@@ -160,7 +160,7 @@ namespace GrpcServiceSample
 
             state.Value.Balance -= transaction.Amount;
             await state.SaveAsync();
-            return new Account {Id = state.Value.Id, Balance = state.Value.Balance};
+            return new Account { Id = state.Value.Id, Balance = state.Value.Balance };
         }
     }
 }

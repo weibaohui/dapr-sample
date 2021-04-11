@@ -14,7 +14,7 @@ namespace pubsub.Controllers
         [HttpPost]
         [Route("processA")]
         [Topic(Config.PubsubName, "A")]
-        public async Task<OkObjectResult> ProcessA(CloudEvent ce)
+        public OkObjectResult ProcessA(CloudEvent ce)
         {
             Console.WriteLine(JsonSerializer.Serialize(ce));
             return Ok(ce);
@@ -23,17 +23,24 @@ namespace pubsub.Controllers
         [HttpPost]
         [Route("processTiny")]
         [Topic(Config.PubsubName, "B")]
-        public async Task<OkObjectResult> ProcessTiny(AppSampleData appSampleData)
+        public OkObjectResult ProcessTiny(AppSampleData appSampleData)
         {
             Console.WriteLine(JsonSerializer.Serialize(appSampleData));
             return Ok(appSampleData);
+
         }
 
         [HttpGet("act")]
         [Topic(Config.PubsubName, "C")]
         public void ProcessAct()
         {
-            Console.WriteLine($"ddddd");
+            Console.WriteLine($"ddddd44");
+        }
+
+        [HttpPost("/rrr")]
+        public string ProcessAct2()
+        {
+            return "sss";
         }
     }
 }
