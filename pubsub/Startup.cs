@@ -1,3 +1,4 @@
+using GrpcServiceSample;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +21,7 @@ namespace pubsub
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddGrpc();
             // services.AddLogging(r => r.AddJsonConsole());
             services.AddControllers().AddDapr();
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "pubsub", Version = "v1"}); });
@@ -45,6 +47,7 @@ namespace pubsub
             {
                 endpoints.MapControllers();
                 endpoints.MapSubscribeHandler();
+                endpoints.MapGrpcService<BankingService>();
             });
         }
     }
