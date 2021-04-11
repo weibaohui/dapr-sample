@@ -12,10 +12,12 @@ namespace pubsub.Controllers
     {
         private readonly ILogger<AccountController> logger;
 
+        private readonly DaprClient client;
 
-        public AccountController(ILogger<AccountController> logger)
+        public AccountController(ILogger<AccountController> logger, DaprClient client)
         {
             this.logger = logger;
+            this.client = client;
         }
 
 
@@ -42,7 +44,7 @@ namespace pubsub.Controllers
         /// <returns></returns>
         [Topic(Config.PubsubName, "deposit")]
         [HttpPost("deposit")]
-        public async Task<ActionResult<Account>> Deposit(Transaction transaction, [FromServices] DaprClient client)
+        public async Task<ActionResult<Account>> Deposit(Transaction transaction)
         {
             logger.LogDebug($"Enter deposit-{transaction}");
             var state = await client.GetStateEntryAsync<Account>(Config.StoreName, transaction.Id);
@@ -60,7 +62,7 @@ namespace pubsub.Controllers
         /// <returns></returns>
         [Topic(Config.PubsubName, "withdraw")]
         [HttpPost("withdraw")]
-        public async Task<ActionResult<Account>> Withdraw(Transaction transaction, [FromServices] DaprClient client)
+        public async Task<ActionResult<Account>> Withdraw(Transaction transaction)
         {
             logger.LogDebug($"Enter withdraw-{transaction}");
             var state = await client.GetStateEntryAsync<Account>(Config.StoreName, transaction.Id);
