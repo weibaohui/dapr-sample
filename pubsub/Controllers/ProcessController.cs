@@ -28,5 +28,12 @@ namespace pubsub.Controllers
             Console.WriteLine(JsonSerializer.Serialize(appSampleData));
             return Ok(appSampleData);
         }
+
+        [HttpGet("act")]
+        [Topic(Config.PubsubName, "C")]
+        public void ProcessAct()
+        {
+            Console.WriteLine($"ddddd");
+        }
     }
 }
