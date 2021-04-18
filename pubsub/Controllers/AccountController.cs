@@ -10,9 +10,8 @@ namespace pubsub.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly ILogger<AccountController> logger;
-
         private readonly DaprClient client;
+        private readonly ILogger<AccountController> logger;
 
         public AccountController(ILogger<AccountController> logger, DaprClient client)
         {
