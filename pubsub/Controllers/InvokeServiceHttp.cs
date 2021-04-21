@@ -50,7 +50,6 @@ namespace pubsub.Controllers
             string accountId = Config.RemoteAccountId)
         {
             var client = DaprClient.CreateInvokeHttpClient(appId);
-
             var deposit = new Transaction {Id = accountId, Amount = 1};
             var response = await client.PostAsJsonAsync("/deposit", deposit);
             var account = await response.Content.ReadFromJsonAsync<Account>();
